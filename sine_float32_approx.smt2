@@ -8,15 +8,15 @@
     (forall ((x Real [(+ (^ 2 -126) (^ 2 -23)), 0.6])) ;x is between (smallest normalised number + machine epsilon) and 0.6
         (and
             (= 
-                (sin x) 
-                (- (- (- x eps) (- (/ (- (* (- x eps) (- (* (- x eps) (- x eps)) eps)) eps) 6.0) eps)) eps))    ; lower estimate for FP rounding
-                                                                                                                ; sub eps from all occurences of x 
-                                                                                                                ; sub eps from all FP operations
+                (sin x)
+                ; x * (1 - (x * x) / 6.0) ; Without rounding
+                ; x * ((1 - ((x * x * (1 + eps)) / 6.0) * (1 + eps)) * (1 - eps)) * (1 - eps) ; Lower bound on rounding
+                (* (* x (* (- 1 (* (/ (* (* x x) (+ 1 eps)) 6.0) (+ 1 eps))) (- 1 eps))) (- 1 eps)))
             (= 
-                (sin x) 
-                (- (- (+ x eps) (- (/ (- (* (+ x eps) (- (* (+ x eps) (+ x eps)) eps)) eps) 6.0) eps)) eps))))) ; upper estimate for FP rounding
-                                                                                                                ; add eps to all occurences of x
-                                                                                                                ; add eps to all FP operations
+                (sin x)
+                ; x * (1 - (x * x) / 6.0) ; Without rounding
+                ; x * ((1 - ((x * x * (1 - eps)) / 6.0) * (1 - eps)) * (1 + eps)) * (1 + eps) ; Upper bound on rounding
+                (* (* x (* (- 1 (* (/ (* (* x x) (- 1 eps)) 6.0) (- 1 eps))) (+ 1 eps))) (+ 1 eps))))))
 (check-sat)
 (get-model)
 (exit)
