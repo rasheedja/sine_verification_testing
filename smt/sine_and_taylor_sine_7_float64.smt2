@@ -12,11 +12,11 @@
                 ; x * (1 - (x * x) * (1 / 6.0 - (x * x) * (1 / 120.0 - (x * x) / 5040.0))) ; Without rounding
 
                 ;   x * 
-                ;       (1 - ((x * x * (1 + eps)) * 
-                ;           ((1 / 6.0 * (1 + eps)) - ((x * x * (1 - eps)) * 
+                ;       ((1 - ((x * x * (1 + eps)) * 
+                ;           (((1 / 6.0 * (1 + eps)) - ((x * x * (1 - eps)) * 
                 ;               (((1 / 120.0 * (1 - eps)) - ((x * x * (1 + eps)) / 5040.0 * (1 + eps))) * (1 - eps)) * 
-                ;           (1 - eps)) * (1 - eps)) * 
-                ;       (1 + eps)) * (1 - eps)) * 
+                ;           (1 - eps))) * (1 - eps)) * 
+                ;       (1 + eps))) * (1 - eps)) * 
                 ;   (1 - eps) ; Lower bound on rounding
 
                 (* (* x
@@ -33,11 +33,11 @@
                 ; x * (1 - (x * x) / 6.0) ; Without rounding
 
                 ;   x * 
-                ;       (1 - ((x * x * (1 - eps)) * 
-                ;           ((1 / 6.0 * (1 - eps)) - ((x * x * (1 + eps)) * 
+                ;       ((1 - ((x * x * (1 - eps)) * 
+                ;           (((1 / 6.0 * (1 - eps)) - ((x * x * (1 + eps)) * 
                 ;               (((1 / 120.0 * (1 + eps)) - ((x * x * (1 - eps)) / 5040.0 * (1 - eps))) * (1 + eps)) * 
-                ;           (1 + eps)) * (1 + eps)) * 
-                ;       (1 - eps)) * (1 + eps)) * 
+                ;           (1 + eps))) * (1 + eps)) * 
+                ;       (1 - eps))) * (1 + eps)) * 
                 ;   (1 + eps) ; Upper bound on rounding
 
                 (* (* x
