@@ -30,7 +30,7 @@
 
             (= 
                 (sin x)
-                ; x * (1 - (x * x) / 6.0) ; Without rounding
+                ; x * (1 - (x * x) * (1 / 6.0 - (x * x) * (1 / 120.0 - (x * x) / 5040.0))) ; Without rounding
 
                 ;   x * 
                 ;       ((1 - ((x * x * (1 - eps)) * 
