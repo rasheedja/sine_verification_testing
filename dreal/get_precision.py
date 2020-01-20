@@ -23,13 +23,21 @@ if (taylorSineDegree in validDegrees):
           print("SKIPPED: " + "Failure count: " + str(unsatCounter) + " Precision = " + '{0:.100f}'.format(precision))
           unsatCounter += 1
           precision = successPrecision - precision / 2 ** unsatCounter
+
+          if (precision == successPrecision): # Best possible precision achieved with this script
+            print ("STOPPED: Same successful precision achieved consecutively. Precision = " + '{0:.100f}'.format(successPrecision))
+
+            if (input("Stop looping? (y): ") == "y"):
+              raise SystemExit # quickest way to stop script here
+          
+          satCounter = 1
         else: # If we get an precision that we know will not fail, break out of this loop
           break
  
-      out = subprocess.run(["dreal", fileName, "--precision", '{0:.100f}'.format(precision)], stdout=subprocess.PIPE).stdout.decode("utf-8")
-        
-      if ('unsat' in out): # If dreal failed to prove with the given precision
-        print("FAILED:  " + "Failure count: " + str(unsatCounter) + " Precision = " + '{0:.100f}'.format(precision))
+      out = subprocess.run(["timeout", "300", "dreal", fileName, "--precision", '{0:.100f}'.format(precision)], stdout=subprocess.PIPE)
+      
+      if (out.returncode != 0): # Command timed out
+        print("TIMEOUT: " + "Failure count: " + str(unsatCounter) + " Precision = " + '{0:.100f}'.format(precision))
         if (precision > largestFailedPrecision): largestFailedPrecision = precision
         
         unsatCounter += 1
@@ -42,19 +50,34 @@ if (taylorSineDegree in validDegrees):
             break
         
         satCounter = 1
+      else:
+        if ('unsat' in out.stdout.decode("utf-8")): # If dreal failed to prove with the given precision
+          print("FAILED:  " + "Failure count: " + str(unsatCounter) + " Precision = " + '{0:.100f}'.format(precision))
+          if (precision > largestFailedPrecision): largestFailedPrecision = precision
+          
+          unsatCounter += 1
+          precision = successPrecision - precision / 2 ** unsatCounter   
 
-      else: # If dreal was successful in proving the given precision
-        print("SUCCESS: " + "Success count: " + str(satCounter) + " Precision = " + '{0:.100f}'.format(precision))
-        if (precision < successPrecision):
-          if (precision / successPrecision > 0.999999999999):
-            print ("STOPPED: Very small relative difference in precision. Precision = " + '{0:.100f}'.format(successPrecision))
+          if (precision == successPrecision): # Best possible precision achieved with this script
+            print ("STOPPED: Same successful precision achieved consecutively. Precision = " + '{0:.100f}'.format(successPrecision))
+
             if (input("Stop looping? (y): ") == "y"):
               break
+          
+          satCounter = 1
 
-        successPrecision = precision
-        precision = precision / 2 ** satCounter
-        unsatCounter = 1
-        satCounter += 1
+        else: # If dreal was successful in proving the given precision
+          print("SUCCESS: " + "Success count: " + str(satCounter) + " Precision = " + '{0:.100f}'.format(precision))
+          if (precision < successPrecision):
+            if (precision / successPrecision > 0.999999999999):
+              print ("STOPPED: Very small relative difference in precision. Precision = " + '{0:.100f}'.format(successPrecision))
+              if (input("Stop looping? (y): ") == "y"):
+                break
+
+          successPrecision = precision
+          precision = precision / 2 ** satCounter
+          unsatCounter = 1
+          satCounter += 1
 
 
   else:
