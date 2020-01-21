@@ -1,0 +1,9 @@
+gnatinspect.db
+gnatprove/*
+gnatprove/**/*
+*.cgpr
+*.bak
+test-loc.xml
+why3*
+proof/Isabelle/*
+proof/Isabelle/**/*

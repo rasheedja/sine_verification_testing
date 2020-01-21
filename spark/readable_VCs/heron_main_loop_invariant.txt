@@ -1,0 +1,67 @@
+--------------------------- Local Context ---------------------------
+
+constant Eps : t
+
+axiom H14 : dynamic_invariant3 Eps True False True True
+
+axiom H13 : dynamic_invariant3 X True False True True
+
+axiom H12 : dynamic_invariant4 N True False True True
+
+axiom H11 :
+  ((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N <=' 5) /\
+  eq Eps (0.0000001192092895507812500000000000000000000000:t)
+
+constant Y : t
+
+axiom H10 : Y = (1.0:t)
+
+axiom H9 : dynamic_invariant3 Y True False True True
+
+constant i : int
+
+axiom H8 : i = 1
+
+axiom H7 :
+  andb (if 1 <=' i then True else False) (if i <=' N then True else False)
+  = True
+
+axiom H6 : in_range3 (power1 2 i)
+
+axiom H5 : in_range2 (power1 2 i)
+
+axiom H4 : in_range3 (power1 2 (power1 2 i))
+
+axiom H3 : in_range3 (3 *' i)
+
+axiom H2 : t'isFinite (add RNE (1.0:t) Eps)
+
+axiom H1 : if (3 *' i) <' 0 then neq (add RNE (1.0:t) Eps) _zeroF else true
+
+axiom H : t'isFinite (power (add RNE (1.0:t) Eps) (3 *' i))
+
+------------------------------- Goal --------------------------------
+
+goal VC def :
+  ole__logic
+  (real_abs__logic
+   (osubtract__logic (real_square_root__logic (real_from_float__logic X))
+    (real_from_float__logic Y)))
+  (odivide__logic
+   (real_from_float__logic (power (add_rne (1.0:t) Eps) (3 *' i)))
+   (real_from_int__logic (power1 2 (power1 2 i))))
+  = True
+
+
+------------------------------- Human-Friendly Goal --------------------------------
+goal VC def :
+  (Rabs (Rsqrt (Rf X)) R- (Rf Y)) <=
+    (Rf ((1.0 + Eps) ^ (3 *' i))) R/ (Ri (2 ^ (2 ^ i)))
+  = True
+
+SMT solvers fail, gappa via why3 fails
+
+------------------------------- Notes --------------------------------
+'R' prefix indicates a function that works on real numbers.
+  R-, R/, etc. are the 'Real' mathematical operators that were imported to SPARK and then used in SPARK assertions
+  

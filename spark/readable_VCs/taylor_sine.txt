@@ -1,0 +1,88 @@
+--------------------------- Local Context ---------------------------
+
+axiom H10 : dynamic_invariant1 X True False True True
+
+axiom H9 :
+  ge X (0.0000001192092895507812500000000000000000000000:t) /\
+  le X (0.750000000000000000000000:t)
+
+axiom H8 : t'isFinite (mul RNE X X)
+
+axiom H7 : t'isFinite (mul RNE X X)
+
+axiom H6 :
+  t'isFinite
+  (mul RNE (mul RNE X X)
+   (sub RNE (0.008333333767950534820556640625:t)
+    (div_rne (mul RNE X X) (5040.0:t))))
+
+axiom H5 :
+  t'isFinite
+  (sub RNE (0.16666667163372039794921875:t)
+   (mul RNE (mul RNE X X)
+    (sub RNE (0.008333333767950534820556640625:t)
+     (div_rne (mul RNE X X) (5040.0:t)))))
+
+axiom H4 : t'isFinite (mul RNE X X)
+
+axiom H3 :
+  t'isFinite
+  (mul RNE (mul RNE X X)
+   (sub RNE (0.16666667163372039794921875:t)
+    (mul RNE (mul RNE X X)
+     (sub RNE (0.008333333767950534820556640625:t)
+      (div_rne (mul RNE X X) (5040.0:t))))))
+
+axiom H2 :
+  t'isFinite
+  (sub RNE (1.0:t)
+   (mul RNE (mul RNE X X)
+    (sub RNE (0.16666667163372039794921875:t)
+     (mul RNE (mul RNE X X)
+      (sub RNE (0.008333333767950534820556640625:t)
+       (div_rne (mul RNE X X) (5040.0:t)))))))
+
+axiom H1 :
+  t'isFinite
+  (mul RNE X
+   (sub RNE (1.0:t)
+    (mul RNE (mul RNE X X)
+     (sub RNE (0.16666667163372039794921875:t)
+      (mul RNE (mul RNE X X)
+       (sub RNE (0.008333333767950534820556640625:t)
+        (div_rne (mul RNE X X) (5040.0:t))))))))
+
+constant Taylor_Sin : t
+
+axiom H :
+  Taylor_Sin
+  = mul RNE X
+    (sub RNE (1.0:t)
+     (mul RNE (mul RNE X X)
+      (sub RNE (0.16666667163372039794921875:t)
+       (mul RNE (mul RNE X X)
+        (sub RNE (0.008333333767950534820556640625:t)
+         (div_rne (mul RNE X X) (5040.0:t)))))))
+
+------------------------------- Goal --------------------------------
+
+goal VC def :
+  ole__logic
+  (real_abs__logic
+   (osubtract__logic (real_sin__logic (real_from_float__logic X))
+    (real_from_float__logic Taylor_Sin)))
+  (real_from_float__logic (0.0000099999997473787516355514526367187500:t))
+  = True
+
+------------------------------- Human-Friendly Goal --------------------------------
+
+goal VC def :
+  (Rabs (R- (Rsin (Rf X)) (Rf Taylor_Sin)) <= (Rf (0.0000099999997473787516355514526367187500:t)))
+  = True
+
+SMT solvers fail, gappa via why3 fails
+
+------------------------------- Notes --------------------------------
+'R' prefix indicates a function that works on real numbers.
+  R-, R/, etc. are the 'Real' mathematical operators that were imported to SPARK and then used in SPARK assertions
+  
