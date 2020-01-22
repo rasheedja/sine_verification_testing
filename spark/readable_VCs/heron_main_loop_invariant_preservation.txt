@@ -1,0 +1,103 @@
+--------------------------- Local Context ---------------------------
+
+constant Eps : t
+
+axiom H20 : dynamic_invariant1 Eps True False True True
+
+axiom H19 : dynamic_invariant1 X True False True True
+
+axiom H18 : dynamic_invariant2 N True False True True
+
+axiom H17 :
+  (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
+   N <=' 5) /\
+  eq Eps (0.0000001192092895507812500000000000000000000000:t)
+
+constant Y2 : t
+
+axiom H16 : Y2 = (1.0:t)
+
+axiom H15 : dynamic_invariant1 Y2 True False True True
+
+constant i2 : int
+
+axiom H14 : i2 = 1
+
+axiom H13 :
+  andb (if 1 <=' i2 then True else False) (if i2 <=' N then True else False)
+  = True
+
+constant i1 : int
+
+constant Y1 : t
+
+axiom H12 : neq Y1 (0.0e-1:t)
+
+axiom H11 : ge Y1 (0.500000000000000000000000:t)
+
+axiom H10 : i1 <=' N
+
+axiom H9 :
+  ole__logic
+  (rabs__logic
+   (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y1)))
+  (odivide__logic
+   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
+    (ri__logic (3 *' i1)))
+   (real_pow__logic (ri__logic 2)
+    (real_pow__logic (ri__logic 2) (ri__logic i1))))
+  = True
+
+axiom H8 :
+  andb
+  (if (((true /\ dynamic_invariant1 Y1 True True True True) /\ true) /\
+       (if true \/ 1 <=' N then dynamic_property 1 N i1 else true)) /\
+      true
+   then True else False)
+  (if 1 <=' i1 /\ i1 <=' N then True else False) = True
+
+axiom H7 : t'isFinite (div_rne X Y1)
+
+axiom H6 : t'isFinite (add RNE Y1 (div_rne X Y1))
+
+constant Y : t
+
+axiom H5 : Y = div_rne (add RNE Y1 (div_rne X Y1)) (2.0:t)
+
+axiom H4 : not i1 = N
+
+constant i : int
+
+axiom H3 : i = (i1 +' 1)
+
+axiom H2 : neq Y (0.0e-1:t)
+
+axiom H1 : ge Y (0.500000000000000000000000:t)
+
+axiom H : i <=' N
+
+------------------------------- Goal --------------------------------
+
+goal VC def :
+  ole__logic
+  (rabs__logic
+   (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y)))
+  (odivide__logic
+   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
+    (ri__logic (3 *' i)))
+   (real_pow__logic (ri__logic 2)
+    (real_pow__logic (ri__logic 2) (ri__logic i))))
+  = True
+
+------------------------------- Human-Friendly Goal --------------------------------
+
+goal VC def :
+  Rabs ((Rsqrt (Rf X)) R- (Rf Y)) <=
+  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' i))) R/ ((Ri 2) R^ ((Ri 2) R^ (Ri i)))
+  = True
+
+SMT solvers fail, gappa via why3 fails
+
+------------------------------- Notes --------------------------------
+'R' prefix indicates a function that works on real numbers.
+  R-, R/, etc. are the 'Real' mathematical operators that were imported to SPARK and then used in SPARK assertions

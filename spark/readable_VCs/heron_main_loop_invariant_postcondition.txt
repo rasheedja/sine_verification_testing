@@ -2,30 +2,53 @@
 
 constant Eps : t
 
-axiom H8 : dynamic_invariant1 Eps True False True True
+axiom H13 : dynamic_invariant1 Eps True False True True
 
-axiom H7 : dynamic_invariant1 X True False True True
+axiom H12 : dynamic_invariant1 X True False True True
 
-axiom H6 : dynamic_invariant2 N True False True True
+axiom H11 : dynamic_invariant2 N True False True True
 
-axiom H5 :
+axiom H10 :
   (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
    N <=' 5) /\
   eq Eps (0.0000001192092895507812500000000000000000000000:t)
 
-constant Y : t
+constant Y1 : t
 
-axiom H4 : Y = (1.0:t)
+axiom H9 : Y1 = (1.0:t)
 
-axiom H3 : dynamic_invariant1 Y True False True True
+axiom H8 : dynamic_invariant1 Y1 True False True True
+
+constant i1 : int
+
+axiom H7 : i1 = 1
+
+axiom H6 :
+  andb (if 1 <=' i1 then True else False) (if i1 <=' N then True else False)
+  = True
 
 constant i : int
 
-axiom H2 : i = 1
+constant Y : t
 
-axiom H1 :
-  not andb (if 1 <=' i then True else False)
-      (if i <=' N then True else False) = True
+axiom H5 : neq Y (0.0e-1:t)
+
+axiom H4 : ge Y (0.500000000000000000000000:t)
+
+axiom H3 : i <=' N
+
+axiom H2 :
+  ole__logic
+  (rabs__logic
+   (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y)))
+  (odivide__logic
+   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
+    (ri__logic (3 *' i)))
+   (real_pow__logic (ri__logic 2)
+    (real_pow__logic (ri__logic 2) (ri__logic i))))
+  = True
+
+axiom H1 : false
 
 constant Heron : t
 
@@ -53,7 +76,4 @@ goal VC def :
   = True
 
 ------------------------------- Notes --------------------------------
-For some reason, 'Heron' in this VC actually refers to the real number Y
-
-'R' prefix indicates a function that works on real numbers.
-  R-, R/, etc. are the 'Real' mathematical operators that were imported to SPARK and then used in SPARK assertions
+This VC is trivial due to H2, Gappa and SMT easily solve this

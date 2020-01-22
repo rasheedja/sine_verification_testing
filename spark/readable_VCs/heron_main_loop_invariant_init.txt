@@ -1,0 +1,63 @@
+--------------------------- Local Context ---------------------------
+
+constant Eps : t
+
+axiom H10 : dynamic_invariant1 Eps True False True True
+
+axiom H9 : dynamic_invariant1 X True False True True
+
+axiom H8 : dynamic_invariant2 N True False True True
+
+axiom H7 :
+  (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
+   N <=' 5) /\
+  eq Eps (0.0000001192092895507812500000000000000000000000:t)
+
+constant Y : t
+
+axiom H6 : Y = (1.0:t)
+
+axiom H5 : dynamic_invariant1 Y True False True True
+
+constant i : int
+
+axiom H4 : i = 1
+
+axiom H3 :
+  andb (if 1 <=' i then True else False) (if i <=' N then True else False)
+  = True
+
+axiom H2 : neq Y (0.0e-1:t)
+
+axiom H1 : ge Y (0.500000000000000000000000:t)
+
+axiom H : i <=' N
+
+------------------------------- Goal --------------------------------
+
+goal VC def :
+  ole__logic
+  (rabs__logic
+   (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y)))
+  (odivide__logic
+   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
+    (ri__logic (3 *' i)))
+   (real_pow__logic (ri__logic 2)
+    (real_pow__logic (ri__logic 2) (ri__logic i))))
+  = True
+
+------------------------------- Human-Friendly Goal --------------------------------
+goal VC def :
+  Rabs ((Rsqrt (Rf X)) R- (Rf Y)) <=
+  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' i))) R/ ((Ri 2) R^ ((Ri 2) R^ (Ri i)))
+  = True
+
+SMT solvers fail, gappa via why3 fails
+
+------------------------------- Notes --------------------------------
+'R' prefix indicates a function that works on real numbers.
+  R-, R/, etc. are the 'Real' mathematical operators that were imported to SPARK and then used in SPARK assertions
+  
+counter example? When X = 0.5, VC is false.
+
+https://www.wolframalpha.com/input/?i=abs%28sqrt%280.5%29-1%29+%3C%3D+%28%281%2B%282%5E-23%29%29%5E3%29%2F%282%5E%282%5E1%29%29
