@@ -2,11 +2,11 @@
 
 constant Eps : t
 
-axiom H8 : dynamic_invariant1 Eps True False True True
+axiom H8 : dynamic_invariant2 Eps True False True True
 
-axiom H7 : dynamic_invariant1 X True False True True
+axiom H7 : dynamic_invariant2 X True False True True
 
-axiom H6 : dynamic_invariant2 N True False True True
+axiom H6 : dynamic_invariant3 N True False True True
 
 axiom H5 :
   (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
@@ -17,7 +17,7 @@ constant Y : t
 
 axiom H4 : Y = (1.0:t)
 
-axiom H3 : dynamic_invariant1 Y True False True True
+axiom H3 : dynamic_invariant2 Y True False True True
 
 constant i : int
 
@@ -41,15 +41,14 @@ goal VC def :
   (odivide__logic
    (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
     (ri__logic (3 *' N)))
-   (real_pow__logic (ri__logic 2)
-    (real_pow__logic (ri__logic 2) (ri__logic N))))
+   (real_pow__logic (ri__logic 2) (ri__logic (power 2 N))))
   = True
 
 ------------------------------- Human-Friendly Goal --------------------------------
 
 goal VC def :
   (Rabs (R- (Rsqrt (Rf X)) (Rf Heron))) <= 
-  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' N))) R/ ((Ri 2) R^ ((Ri 2) R^ (Ri N)))
+  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' N))) R/ ((Ri 2) R^ Ri(2 ^ N))
   = True
 
 ------------------------------- Notes --------------------------------

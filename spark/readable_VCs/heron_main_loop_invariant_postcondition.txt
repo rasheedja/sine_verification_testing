@@ -2,28 +2,28 @@
 
 constant Eps : t
 
-axiom H13 : dynamic_invariant1 Eps True False True True
+axiom H14 : dynamic_invariant2 Eps True False True True
 
-axiom H12 : dynamic_invariant1 X True False True True
+axiom H13 : dynamic_invariant2 X True False True True
 
-axiom H11 : dynamic_invariant2 N True False True True
+axiom H12 : dynamic_invariant3 N True False True True
 
-axiom H10 :
+axiom H11 :
   (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
    N <=' 5) /\
   eq Eps (0.0000001192092895507812500000000000000000000000:t)
 
 constant Y1 : t
 
-axiom H9 : Y1 = (1.0:t)
+axiom H10 : Y1 = (1.0:t)
 
-axiom H8 : dynamic_invariant1 Y1 True False True True
+axiom H9 : dynamic_invariant2 Y1 True False True True
 
 constant i1 : int
 
-axiom H7 : i1 = 1
+axiom H8 : i1 = 1
 
-axiom H6 :
+axiom H7 :
   andb (if 1 <=' i1 then True else False) (if i1 <=' N then True else False)
   = True
 
@@ -31,11 +31,13 @@ constant i : int
 
 constant Y : t
 
-axiom H5 : neq Y (0.0e-1:t)
+axiom H6 : ge Y (0.699999988079071044921875:t)
 
-axiom H4 : ge Y (0.500000000000000000000000:t)
+axiom H5 : le Y (1.79999995231628417968750:t)
 
-axiom H3 : i <=' N
+axiom H4 : le (abs (sub_rne X Y)) (1.29999995231628417968750:t)
+
+axiom H3 : (i -' 1) <' N
 
 axiom H2 :
   ole__logic
@@ -43,9 +45,8 @@ axiom H2 :
    (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y)))
   (odivide__logic
    (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
-    (ri__logic (3 *' i)))
-   (real_pow__logic (ri__logic 2)
-    (real_pow__logic (ri__logic 2) (ri__logic i))))
+    (ri__logic (3 *' (i -' 1))))
+   (real_pow__logic (ri__logic 2) (ri__logic (power 2 (i -' 1)))))
   = True
 
 axiom H1 : false
@@ -64,15 +65,14 @@ goal VC def :
   (odivide__logic
    (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
     (ri__logic (3 *' N)))
-   (real_pow__logic (ri__logic 2)
-    (real_pow__logic (ri__logic 2) (ri__logic N))))
+   (real_pow__logic (ri__logic 2) (ri__logic (power 2 N))))
   = True
 
 ------------------------------- Human-Friendly Goal --------------------------------
 
 goal VC def :
   (Rabs (R- (Rsqrt (Rf X)) (Rf Heron))) <= 
-  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' N))) R/ ((Ri 2) R^ ((Ri 2) R^ (Ri N)))
+  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' N))) R/ ((Ri 2) R^ Ri(2 ^ N))
   = True
 
 ------------------------------- Notes --------------------------------

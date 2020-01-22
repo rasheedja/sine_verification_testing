@@ -2,28 +2,28 @@
 
 constant Eps : t
 
-axiom H20 : dynamic_invariant1 Eps True False True True
+axiom H22 : dynamic_invariant2 Eps True False True True
 
-axiom H19 : dynamic_invariant1 X True False True True
+axiom H21 : dynamic_invariant2 X True False True True
 
-axiom H18 : dynamic_invariant2 N True False True True
+axiom H20 : dynamic_invariant3 N True False True True
 
-axiom H17 :
+axiom H19 :
   (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
    N <=' 5) /\
   eq Eps (0.0000001192092895507812500000000000000000000000:t)
 
 constant Y2 : t
 
-axiom H16 : Y2 = (1.0:t)
+axiom H18 : Y2 = (1.0:t)
 
-axiom H15 : dynamic_invariant1 Y2 True False True True
+axiom H17 : dynamic_invariant2 Y2 True False True True
 
 constant i2 : int
 
-axiom H14 : i2 = 1
+axiom H16 : i2 = 1
 
-axiom H13 :
+axiom H15 :
   andb (if 1 <=' i2 then True else False) (if i2 <=' N then True else False)
   = True
 
@@ -31,50 +31,53 @@ constant i1 : int
 
 constant Y1 : t
 
-axiom H12 : neq Y1 (0.0e-1:t)
+axiom H14 : ge Y1 (0.699999988079071044921875:t)
 
-axiom H11 : ge Y1 (0.500000000000000000000000:t)
+axiom H13 : le Y1 (1.79999995231628417968750:t)
 
-axiom H10 : i1 <=' N
+axiom H12 : le (abs (sub_rne X Y1)) (1.29999995231628417968750:t)
 
-axiom H9 :
+axiom H11 : (i1 -' 1) <' N
+
+axiom H10 :
   ole__logic
   (rabs__logic
    (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y1)))
   (odivide__logic
    (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
-    (ri__logic (3 *' i1)))
-   (real_pow__logic (ri__logic 2)
-    (real_pow__logic (ri__logic 2) (ri__logic i1))))
+    (ri__logic (3 *' (i1 -' 1))))
+   (real_pow__logic (ri__logic 2) (ri__logic (power 2 (i1 -' 1)))))
   = True
 
-axiom H8 :
+axiom H9 :
   andb
-  (if (((true /\ dynamic_invariant1 Y1 True True True True) /\ true) /\
+  (if (((true /\ dynamic_invariant2 Y1 True True True True) /\ true) /\
        (if true \/ 1 <=' N then dynamic_property 1 N i1 else true)) /\
       true
    then True else False)
   (if 1 <=' i1 /\ i1 <=' N then True else False) = True
 
-axiom H7 : t'isFinite (div_rne X Y1)
+axiom H8 : t'isFinite (div_rne X Y1)
 
-axiom H6 : t'isFinite (add RNE Y1 (div_rne X Y1))
+axiom H7 : t'isFinite (add RNE Y1 (div_rne X Y1))
 
 constant Y : t
 
-axiom H5 : Y = div_rne (add RNE Y1 (div_rne X Y1)) (2.0:t)
+axiom H6 : Y = div_rne (add RNE Y1 (div_rne X Y1)) (2.0:t)
 
-axiom H4 : not i1 = N
+axiom H5 : not i1 = N
 
 constant i : int
 
-axiom H3 : i = (i1 +' 1)
+axiom H4 : i = (i1 +' 1)
 
-axiom H2 : neq Y (0.0e-1:t)
+axiom H3 : ge Y (0.699999988079071044921875:t)
 
-axiom H1 : ge Y (0.500000000000000000000000:t)
+axiom H2 : le Y (1.79999995231628417968750:t)
 
-axiom H : i <=' N
+axiom H1 : le (abs (sub_rne X Y)) (1.29999995231628417968750:t)
+
+axiom H : (i -' 1) <' N
 
 ------------------------------- Goal --------------------------------
 
@@ -84,16 +87,15 @@ goal VC def :
    (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y)))
   (odivide__logic
    (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
-    (ri__logic (3 *' i)))
-   (real_pow__logic (ri__logic 2)
-    (real_pow__logic (ri__logic 2) (ri__logic i))))
+    (ri__logic (3 *' (i -' 1))))
+   (real_pow__logic (ri__logic 2) (ri__logic (power 2 (i -' 1)))))
   = True
 
 ------------------------------- Human-Friendly Goal --------------------------------
 
 goal VC def :
   Rabs ((Rsqrt (Rf X)) R- (Rf Y)) <=
-  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' i))) R/ ((Ri 2) R^ ((Ri 2) R^ (Ri i)))
+  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' (i - 1)))) R/ ((Ri 2) R^ Ri(2 ^ (i - 1)))
   = True
 
 SMT solvers fail, gappa via why3 fails
