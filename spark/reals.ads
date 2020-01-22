@@ -73,6 +73,9 @@ is
    function Real_Square_Root (X : Real) return Real
      with Import;
 
+   function Real_Pow (X, Y : Real) return Real
+     with Import;
+
 private
    pragma SPARK_Mode (Off);
 

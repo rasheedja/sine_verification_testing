@@ -173,3 +173,11 @@ module Reals__real_square_root
  val real_square_root (x : real) : real
   ensures { result = real_square_root__logic x }
 end
+
+module Reals__real_pow
+ use real.PowerReal
+ 
+ function real_pow__logic (x : real) (y : real) : real = pow x y
+ val real_pow (x : real) (y : real) : real
+  ensures { result = real_pow__logic x y }
+end
