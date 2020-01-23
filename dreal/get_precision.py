@@ -15,6 +15,9 @@ if (taylorSineDegree in validDegrees):
     satCounter = 1
     unsatCounter = 1
     fileName = "sine_and_taylor_sine_" + str(taylorSineDegree) + "_" + approximationType + ".smt2"
+    if(approximationType != "real"):
+      if(input("Only check for rounding error? (y)") == "y"):
+        fileName = "taylor_" + fileName
 
     while(True):
 
@@ -70,7 +73,7 @@ if (taylorSineDegree in validDegrees):
           print("SUCCESS: " + "Success count: " + str(satCounter) + " Precision = " + '{0:.100f}'.format(precision))
           if (precision < successPrecision):
             if (precision / successPrecision > 0.999999999999):
-              print ("STOPPED: Very small relative difference in precision. Precision = " + '{0:.100f}'.format(successPrecision))
+              print ("STOPPED: Very small relative difference in precision. Precision = " + '{0:.100f}'.format(precision))
               if (input("Stop looping? (y): ") == "y"):
                 break
 
