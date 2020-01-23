@@ -77,7 +77,7 @@ goal VC def :
 ------------------------------- Human-Friendly Goal --------------------------------
 
 goal VC def :
-  (Rabs (R- (Rsin (Rf X)) (Rf Taylor_Sin)) <= (Rf (0.0000099999997473787516355514526367187500:t)))
+  Rabs (Real_Sin(Rf X) R- (Rf Taylor_Sin)) <= (Rf (0.0000099999997473787516355514526367187500:t))
   = True
 
 SMT solvers fail, gappa via why3 fails
