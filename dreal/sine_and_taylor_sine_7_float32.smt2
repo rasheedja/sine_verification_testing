@@ -1,7 +1,8 @@
 ;Assert that a taylor sine approxiamtion (x - (x^3 / 6)) with an estimate for 32-bit FP rounding error is close to sine
 
 (declare-const eps Real)
-(set-option :precision 0.0000003923174846715972174745101948289960347437954624183475971221923828125) ; 0.43s to prove delta-sat
+; precision from script 0.00000042828521908991127705571325644251512443361207260750234127044677734375
+(set-option :precision 0.00000043) ; 60s to prove delta-sat
 (assert (= eps (^ 2 -23))) ;machine epsilon
 
 (assert

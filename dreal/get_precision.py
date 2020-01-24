@@ -37,7 +37,7 @@ if (taylorSineDegree in validDegrees):
         else: # If we get an precision that we know will not fail, break out of this loop
           break
  
-      out = subprocess.run(["timeout", "300", "dreal", fileName, "--precision", '{0:.100f}'.format(precision)], stdout=subprocess.PIPE)
+      out = subprocess.run(["timeout", "60", "dreal", fileName, "--precision", '{0:.100f}'.format(precision)], stdout=subprocess.PIPE)
       
       if (out.returncode != 0): # Command timed out
         print("TIMEOUT: " + "Failure count: " + str(unsatCounter) + " Precision = " + '{0:.100f}'.format(precision))

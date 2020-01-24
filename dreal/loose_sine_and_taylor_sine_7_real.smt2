@@ -1,7 +1,7 @@
 ;Assert that a taylor sine approxiamtion (x - (x^3 / 6)) with an estimate for 32-bit FP rounding error is close to sine
 
 ; 0.000000209225771949035315011087405277778739076666170149110257625579833984375
-(set-option :precision 0.00000021) ; 33s to prove delta-sat
+(set-option :precision 0.1) ; 33s to prove delta-sat
 
 (assert
     (forall ((x Real [(+ (^ 2 -126) (^ 2 -23)), 0.75])) ;x is between (smallest normalised number + machine epsilon for float32) and pi/2
