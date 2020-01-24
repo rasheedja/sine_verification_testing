@@ -4,6 +4,9 @@ From mathcomp Require Import all_ssreflect.
 
 Open Scope R_scope.
 
+Definition lb := 10141204801825835211973625643009/85070591730234615865843651857942052864.
+Definition ub := 75/100.
+
 (* Mini test *)
 Lemma sine_test x:
   0 <= x <= 8/10 -> 
