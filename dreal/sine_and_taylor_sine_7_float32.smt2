@@ -15,38 +15,38 @@
                 ; x * (1 - (x * x) * (1 / 6.0 - (x * x) * (1 / 120.0 - (x * x) / 5040.0))) ; Without rounding
 
                 ;   (x * 
-                ;       ((1 - ((((x * x + sn) * (1 + eps)) * 
-                ;           ((((1 / 6.0 + sn) * (1 + eps)) - ((((x * x + sn) * (1 - eps)) * 
-                ;               ((((1 / 120.0 + sn) * (1 - eps)) - ((((x * x + sn) * (1 + eps)) / 5040.0 + sn) * (1 + eps)) + sn) * (1 - eps)) 
-                ;           + sn) * (1 - eps)) + sn) * (1 - eps))
-                ;       + sn) * (1 + eps)) + sn) * (1 - eps))
-                ;   + sn) * (1 - eps) ; Lower bound on rounding
+                ;       ((1.0 - ((((x * x + sn) * (1.0 + eps)) * 
+                ;           ((((1.0 / 6.0 + sn) * (1.0 + eps)) - ((((x * x - sn) * (1.0 - eps)) * 
+                ;               ((((1.0 / 120.0 - sn) * (1.0 - eps)) - ((((x * x + sn) * (1.0 + eps)) / 5040.0 + sn) * (1.0 + eps)) - sn) * (1.0 - eps)) 
+                ;           - sn) * (1.0 - eps)) - sn) * (1.0 - eps))
+                ;       + sn) * (1.0 + eps)) - sn) * (1.0 - eps))
+                ;   - sn) * (1.0 - eps) ; Lower bound on rounding
 
-                (* (+ (* x
-                    (* (+ (- 1 (* (+ (* (* (+ (* x x) sn) (+ 1 eps))
-                        (* (+ (- (* (+ (/ 1 6) sn) (+ 1 eps)) (* (+ (* (* (+ (* x x) sn) (- 1 eps))
-                            (* (+ (- (* (+ (/ 1 120) sn) (- 1 eps)) (* (+ (/ (* (+ (* x x) sn) (+ 1 eps)) 5040) sn) (+ 1 eps))) sn) (- 1 eps))) 
+                (* (- (* x
+                    (* (- (- 1 (* (+ (* (* (+ (* x x) sn) (+ 1 eps))
+                        (* (- (- (* (+ (/ 1 6) sn) (+ 1 eps)) (* (- (* (* (- (* x x) sn) (- 1 eps))
+                            (* (- (- (* (- (/ 1 120) sn) (- 1 eps)) (* (+ (/ (* (+ (* x x) sn) (+ 1 eps)) 5040) sn) (+ 1 eps))) sn) (- 1 eps))) 
                         sn) (- 1 eps))) sn) (- 1 eps))
                     ) sn) (+ 1 eps))) sn) (- 1 eps))
-                ) sn) (- 1 eps))
-            )
+                ) sn) (- 1 eps)))
+            
 
             (= 
                 (sin x)
                 ; x * (1 - (x * x) * (1 / 6.0 - (x * x) * (1 / 120.0 - (x * x) / 5040.0))) ; Without rounding
 
                 ;   (x * 
-                ;       ((1 - ((((x * x + sn) * (1 - eps)) * 
-                ;           ((((1 / 6.0 + sn) * (1 - eps)) - ((((x * x + sn) * (1 + eps)) * 
-                ;               ((((1 / 120.0 + sn) * (1 + eps)) - ((((x * x + sn) * (1 - eps)) / 5040.0 + sn) * (1 - eps)) + sn) * (1 + eps))
-                ;           + sn) * (1 + eps)) + sn) * (1 + eps))
-                ;       + sn) * (1 - eps)) + sn) * (1 + eps))
-                ;   + sn) * (1 + eps) ; Upper bound on rounding
+                ;       ((1.0 - ((((x * x - sn) * (1.0 - eps)) * 
+                ;           ((((1.0 / 6.0 - sn) * (1.0 - eps)) - ((((x * x + sn) * (1.0 + eps)) * 
+                ;               ((((1.0 / 120.0 + sn) * (1.0 + eps)) - ((((x * x - sn) * (1.0 - eps)) / 5040.0 - sn) * (1.0 - eps)) + sn) * (1.0 + eps))
+                ;           + sn) * (1.0 + eps)) + sn) * (1.0 + eps))
+                ;       - sn) * (1.0 - eps)) + sn) * (1.0 + eps))
+                ;   + sn) * (1.0 + eps) ; Upper bound on rounding
 
                 (* (+ (* x
-                    (* (+ (- 1 (* (+ (* (* (+ (* x x) sn) (- 1 eps))
-                        (* (+ (- (* (+ (/ 1 6) sn) (- 1 eps)) (* (+ (* (* (+ (* x x) sn) (+ 1 eps))
-                            (* (+ (- (* (+ (/ 1 120) sn) (+ 1 eps)) (* (+ (/ (* (+ (* x x) sn) (- 1 eps)) 5040) sn) (- 1 eps))) sn) (+ 1 eps))) 
+                    (* (+ (- 1 (* (- (* (* (- (* x x) sn) (- 1 eps))
+                        (* (+ (- (* (- (/ 1 6) sn) (- 1 eps)) (* (+ (* (* (+ (* x x) sn) (+ 1 eps))
+                            (* (+ (- (* (+ (/ 1 120) sn) (+ 1 eps)) (* (- (/ (* (- (* x x) sn) (- 1 eps)) 5040) sn) (- 1 eps))) sn) (+ 1 eps))) 
                         sn) (+ 1 eps))) sn) (+ 1 eps))
                     ) sn) (- 1 eps))) sn) (+ 1 eps))
                 ) sn) (+ 1 eps))
