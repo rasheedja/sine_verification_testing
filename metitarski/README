@@ -1,0 +1,16 @@
+Installing MetiTarski on Ubuntu:
+
+Download zip from https://bitbucket.org/lcpaulson/metitarski/downloads/ .
+
+Install system packages: z3, polyml, libpolyml-dev
+
+Unpack the zip, cd to the base folder and run:
+./configure
+make
+sudo make install
+
+Running MetiTarski:
+
+export Z3_NONLIN=/usr/bin/z3
+time metit --autoInclude sine_and_taylor_sine_7_real.tptp
+
