@@ -4,4 +4,4 @@ fof(sine_and_taylor_sine_7_real,conjecture,
     abs(sin (X) - 
       X*(1 - X^2*(1/6 - X^2*(1/120 - X^2*(1/5040))))
     ) 
-    <= 0.00000021)).
+    <= 0.1)).
