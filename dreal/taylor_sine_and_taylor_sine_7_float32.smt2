@@ -2,7 +2,7 @@
 
 (declare-const eps Real)
 (declare-const sn Real)
-(set-option :precision 0.00000063) ; 60s to prove delta-sat
+(set-option :precision 0.00000073) ; 60s to prove delta-sat
 (assert (= eps (^ 2 -23))) ;machine epsilon
 (assert (= sn (^ 2 -126))) ; smallest normalized number
 
