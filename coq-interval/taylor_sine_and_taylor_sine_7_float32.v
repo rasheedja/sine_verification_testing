@@ -12,8 +12,8 @@ Definition sineT7 x :=
 Definition sineT7fpDown eps sN x :=
   let onePe := 1 + eps in
   let oneMe := 1 - eps in
-  let RU x := sN + x * onePe in
-  let RD x := sN - x * oneMe in
+  let RU x := (x + sN) * onePe in
+  let RD x := (x - sN) * oneMe in
   let x2U := RU (x*x) in 
   let x2D := RD (x*x) in 
   RD(x *(1 - RU(x2U * RU(RU(1/6) - RD(x2D * RD(RD(1/120) - RU(x2U*RU(1/5040)))))))).
@@ -21,8 +21,8 @@ Definition sineT7fpDown eps sN x :=
 Definition sineT7fpUp eps sN x :=
   let onePe := 1 + eps in
   let oneMe := 1 - eps in
-  let RU x := sN + x * onePe in
-  let RD x := sN - x * oneMe in
+  let RU x := (x + sN) * onePe in
+  let RD x := (x - sN) * oneMe in
   let x2U := RU (x*x) in 
   let x2D := RD (x*x) in 
   RU(x *(1 - RD(x2D * RD(RD(1/6) - RU(x2U * RU(RU(1/120) - RD(x2D*RD(1/5040)))))))).
