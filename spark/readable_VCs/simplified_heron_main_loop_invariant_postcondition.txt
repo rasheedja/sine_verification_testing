@@ -2,51 +2,39 @@
 
 constant Eps : t
 
-axiom H17 : dynamic_invariant2 Eps True False True True
-
-axiom H16 : dynamic_invariant2 X True False True True
-
-axiom H15 : dynamic_invariant3 N True False True True
-
+# Precondition
 axiom H14 :
   (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
    N <=' 5) /\
   eq Eps (0.0000001192092895507812500000000000000000000000:t)
 
+# Y2 = original Y value
 constant Y2 : t
-
 axiom H13 : Y2 = (1.0:t)
 
-axiom H12 : dynamic_invariant2 Y2 True False True True
-
-constant i1 : int
-
-axiom H11 : i1 = 1
-
+# Trivial VC (substituted original i1 with 1)
 axiom H10 :
-  andb (if 1 <=' i1 then True else False) (if i1 <=' N then True else False)
+  andb (if 1 <=' 1 then True else False) (if 1 <=' N then True else False)
   = True
 
+# Overflow checks
 axiom H9 : t'isFinite (div_rne X Y2)
-
 axiom H8 : t'isFinite (add RNE Y2 (div_rne X Y2))
 
+# Y1 = Y value after 1 iteration of loop
 constant Y1 : t
-
 axiom H7 : Y1 = div_rne (add RNE Y2 (div_rne X Y2)) (2.0:t)
 
-constant i : int
-
+# Loop invariants
 constant Y : t
-
 axiom H6 : ge Y (0.699999988079071044921875:t)
-
 axiom H5 : le Y (1.79999995231628417968750:t)
-
 axiom H4 : le (abs (sub_rne X Y)) (1.29999995231628417968750:t)
 
+constant i : int
 axiom H3 : i <=' N
 
+# Preservation loop invariant, i is int <= N
 axiom H2 :
   ole__logic
   (rabs__logic
@@ -57,31 +45,13 @@ axiom H2 :
    (real_pow__logic (ri__logic 2) (ri__logic (power 2 i))))
   = True
 
+# This makes VC trivial
 axiom H1 : false
 
-constant Heron : t
-
-axiom H : Heron = Y
-
-------------------------------- Goal --------------------------------
-
+# Simplified goal
 goal VC def :
-  ole__logic
-  (rabs__logic
-   (osubtract__logic (real_square_root__logic (rf__logic X))
-    (rf__logic Heron)))
-  (odivide__logic
-   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
-    (ri__logic (3 *' N)))
-   (real_pow__logic (ri__logic 2) (ri__logic (power 2 N))))
-  = True
-
-------------------------------- Human-Friendly Goal --------------------------------
-
-goal VC def :
-  (Rabs (R- (Rsqrt (Rf X)) (Rf Heron))) <= 
-  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' N))) R/ ((Ri 2) R^ Ri(2 ^ N))
-  = True
+  (Rabs (- (Rsqrt (Rf X)) (Rf Y))) <= 
+    (((Ri 1) + (Rf Eps)) ^ (Ri (3 *' N))) / ((Ri 2) ^ Ri(2 ^ N))
 
 ------------------------------- Notes --------------------------------
 This VC is trivial due to H2, Gappa and SMT easily solve this

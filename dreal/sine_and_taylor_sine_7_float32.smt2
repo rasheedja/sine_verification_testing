@@ -3,7 +3,7 @@
 (declare-const eps Real)
 (declare-const sn Real)
 ; precision from script 0.00000042828521908991127705571325644251512443361207260750234127044677734375
-(set-option :precision 0.00000048) ; 60s to prove delta-sat
+(set-option :precision 0.00000056) ; 60s to prove delta-sat
 (assert (= eps (^ 2 -23))) ; machine epsilon
 (assert (= sn (^ 2 -126))) ; smallest normalized number
 
