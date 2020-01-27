@@ -7,7 +7,7 @@ fof(heron_preservation_total_i2,conjecture,
   (
     (0.5 <= X & X <= 2 
     & 0.8 <= Y & Y <= 1.5
-    & abs(sqrt(X) - Y) <= 0.5^(2^1) + 6*(0.5^23)
+    & abs(sqrt(X) - Y) <= 0.5^(2^1) + 6*eps
     ) => 
-    abs(sqrt(X) - up(up(Y + up(X/Y))/2)) <= 0.5^(2^2) + 12*(0.5^23))
+    abs(sqrt(X) - up(up(Y + up(X/Y))/2)) <= 0.5^(2^2) + 12*eps)
   ).

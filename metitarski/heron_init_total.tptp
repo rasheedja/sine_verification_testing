@@ -6,4 +6,4 @@ fof(heron_init_total_dn,conjecture,
   ! [X] : 
   ((0.5 <= X & X <= 2) => 
     abs(sqrt(X) - up(up(1 + X)/2)) 
-    <= 0.25+6/(2^23))).
+    <= 0.25+6*eps)).

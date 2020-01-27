@@ -6,4 +6,4 @@ fof(heron_init_rounding_dn,conjecture,
   ! [X] : 
   ((0.5 <= X & X <= 2) => 
     abs(up(up(1 + X)/2) - (1+X)/2) 
-    <= 6/(2^23))).
+    <= 6*eps)).
