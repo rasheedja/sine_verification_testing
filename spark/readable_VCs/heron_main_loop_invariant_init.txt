@@ -49,24 +49,8 @@ goal VC def :
   ole__logic
   (rabs__logic
    (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y)))
-  (odivide__logic
-   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
-    (ri__logic (3 *' i)))
-   (real_pow__logic (ri__logic 2) (ri__logic (power 2 i))))
+  (oadd__logic
+   (odivide__logic (ri__logic 1)
+    (real_pow__logic (ri__logic 2) (ri__logic (power 2 i))))
+   (omultiply__logic (ri__logic (6 *' i)) (rf__logic Eps)))
   = True
-
-------------------------------- Human-Friendly Goal --------------------------------
-goal VC def :
-  Rabs ((Rsqrt (Rf X)) R- (Rf Y)) <=
-  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' (i)))) R/ ((Ri 2) R^ Ri(2 ^ (i)))
-  = True
-
-SMT solvers fail, gappa via why3 fails
-
-------------------------------- Notes --------------------------------
-'R' prefix indicates a function that works on real numbers.
-  R-, R/, etc. are the 'Real' mathematical operators that were imported to SPARK and then used in SPARK assertions
-  
-counter example? When X = 0.5, VC is false.
-
-https://www.wolframalpha.com/input/?i=abs%28sqrt%280.5%29-1%29+%3C%3D+%28%281%2B%282%5E-23%29%29%5E3%29%2F%282%5E%282%5E1%29%29

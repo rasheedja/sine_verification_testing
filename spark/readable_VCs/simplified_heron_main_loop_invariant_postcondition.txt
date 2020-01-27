@@ -2,56 +2,68 @@
 
 constant Eps : t
 
-# Precondition
+axiom H17 : dynamic_invariant2 Eps True False True True
+
+axiom H16 : dynamic_invariant2 X True False True True
+
+axiom H15 : dynamic_invariant3 N True False True True
+
 axiom H14 :
   (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
    N <=' 5) /\
   eq Eps (0.0000001192092895507812500000000000000000000000:t)
 
-# Y2 = original Y value
 constant Y2 : t
+
 axiom H13 : Y2 = (1.0:t)
 
-# Trivial VC (substituted original i1 with 1)
+axiom H12 : dynamic_invariant2 Y2 True False True True
+
+constant i1 : int
+
+axiom H11 : i1 = 1
+
 axiom H10 :
-  andb (if 1 <=' 1 then True else False) (if 1 <=' N then True else False)
+  andb (if 1 <=' i1 then True else False) (if i1 <=' N then True else False)
   = True
 
-# Overflow checks
 axiom H9 : t'isFinite (div_rne X Y2)
+
 axiom H8 : t'isFinite (add RNE Y2 (div_rne X Y2))
 
-# Y1 = Y value after 1 iteration of loop
 constant Y1 : t
+
 axiom H7 : Y1 = div_rne (add RNE Y2 (div_rne X Y2)) (2.0:t)
 
-# Loop invariants
+constant i : int
+
 constant Y : t
+
 axiom H6 : ge Y (0.699999988079071044921875:t)
+
 axiom H5 : le Y (1.79999995231628417968750:t)
+
 axiom H4 : le (abs (sub_rne X Y)) (1.29999995231628417968750:t)
 
-constant i : int
 axiom H3 : i <=' N
 
-# Preservation loop invariant, i is int <= N
 axiom H2 :
   ole__logic
   (rabs__logic
    (osubtract__logic (real_square_root__logic (rf__logic X)) (rf__logic Y)))
-  (odivide__logic
-   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
-    (ri__logic (3 *' i)))
-   (real_pow__logic (ri__logic 2) (ri__logic (power 2 i))))
+  (oadd__logic
+   (odivide__logic (ri__logic 1)
+    (real_pow__logic (ri__logic 2) (ri__logic (power 2 i))))
+   (omultiply__logic (ri__logic (6 *' i)) (rf__logic Eps)))
   = True
 
-# This makes VC trivial
 axiom H1 : false
 
-# Simplified goal
-goal VC def :
-  (Rabs (- (Rsqrt (Rf X)) (Rf Y))) <= 
-    (((Ri 1) + (Rf Eps)) ^ (Ri (3 *' N))) / ((Ri 2) ^ Ri(2 ^ N))
+constant Heron : t
 
-------------------------------- Notes --------------------------------
-This VC is trivial due to H2, Gappa and SMT easily solve this
+axiom H : Heron = Y
+
+Simplified goal:
+  Rabs(Rsqrt (Rf X) - (Rf Y)) <= 1 / (2 ^ 2 ^ N) + (6 * N Eps))
+  
+Note: This VC is trivial due to axiom H1

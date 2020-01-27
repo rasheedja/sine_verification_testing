@@ -1,29 +1,26 @@
-Context:
+--------------------------- Local Context ---------------------------
 
 constant Eps : t
 
 axiom Precondition :
   (((ge X (0.500000000000000000000000:t) /\ le X (2.0:t)) /\ N >' 0) /\
-  N <=' 5) /\
+   N <=' 5) /\
   eq Eps (0.0000001192092895507812500000000000000000000000:t)
 
-# Heron implementation overflow checks, etc.
-constant Y1 : t
-axiom H10 : Y1 = (1.0:t)
+# Overflow checks
 axiom H6 : t'isFinite (div_rne X Y1)
 axiom H5 : t'isFinite (add RNE Y1 (div_rne X Y1))
 
-# Y = Y1 + X/Y1
+constant Y1 : t
+axiom H10 : Y1 = (1.0:t)
+constant Y : t
 axiom H4 : Y = div_rne (add RNE Y1 (div_rne X Y1)) (2.0:t)
 
 # Loop invariants
-constant Y : t
 axiom H3 : ge Y (0.699999988079071044921875:t)
 axiom H2 : le Y (1.79999995231628417968750:t)
 axiom H1 : le (abs (sub_rne X Y)) (1.29999995231628417968750:t)
 
-Goal:
-  Rabs ((Rsqrt (Rf X)) - (Rf Y)) <=
-  (((Ri 1) + (Rf Eps)) ^ (Ri (3 * (1)))) / ((Ri 2) ^ Ri(2 ^ (1)))
-
-Notes: Replaced i from generated VC with i, removed all axioms involving i.
+Simplified goal:
+  Rabs ((Rsqrt (Rf X)) R- (Rf Y)) <=
+    (1 / (2^2) + (6 * Eps))
