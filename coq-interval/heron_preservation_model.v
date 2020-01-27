@@ -11,7 +11,6 @@ Lemma heron_preservation_model_error x y i :
   let y' := (y + x/y)/2 in
   1/2 <= x <= 2 -> 
   8/10 <= y <= 18/10 -> 
-  sqrt x <= y ->
   (1 <= i < 5)%nat -> 
   heron_invariant x y 1 ->
   heron_invariant x y' 2.
