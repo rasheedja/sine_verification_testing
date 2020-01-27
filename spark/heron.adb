@@ -15,8 +15,8 @@ package body Heron with SPARK_Mode is
          pragma Loop_Invariant (abs(X - Y) <= 1.3);
          pragma Loop_Invariant (i <= N);
          pragma Loop_Invariant 
-           (Rabs (Real_Square_Root (Rf(X)) - Rf(Y)) 
-            <= Real_Pow((Ri(1) + Rf(Eps)), Ri(3 * i)) / Real_Pow(Ri(2), Ri(2 ** i)));
+           (Rabs (Real_Square_Root (Rf(X)) - Rf(Y))
+            <=  1 / Real_Pow(Ri(2), Ri(2 ** i)) + Ri(6 * i) * Rf(Eps);
          
       end loop;
       
