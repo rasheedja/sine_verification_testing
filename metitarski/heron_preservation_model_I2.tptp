@@ -1,4 +1,4 @@
-fof(heron_preservation_model,conjecture, 
+fof(heron_preservation_model_i2,conjecture, 
   ! [X,Y] : 
   (
     (0.5 <= X & X <= 2 
