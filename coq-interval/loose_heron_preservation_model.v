@@ -3,17 +3,17 @@ Require Import Interval.Interval_tactic.
 
 Open Scope R_scope.
 
-(* Taylor expansion of sine of degree 7 in Horner form *)
-Definition heron_invariant x y i := 
-  y - sqrt x <= i.
+Definition heron_invariant x y i ieps eps := 
+  y - sqrt x <= i + INR(ieps) * eps.
 
 Lemma heron_preservation_model_error x y i :
+  let eps := 1 / (2^23) in
   let y' := (y + x/y)/2 in
   1/2 <= x <= 2 -> 
-  8/10 <= y <= 15/10 -> 
+  8/10 <= y <= 18/10 -> 
   (1 <= i < 5)%nat -> 
-  heron_invariant x y (1/(2^(2))) ->
-  heron_invariant x y' (1/10).
+  heron_invariant x y (1/(2^(2^i))) i eps ->
+  heron_invariant x y' 0.1 0 0.
 Proof.
   intros.
   unfold heron_invariant, y'.
