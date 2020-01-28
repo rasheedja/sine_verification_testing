@@ -43,8 +43,6 @@ axiom H6 : ge Y (0.699999988079071044921875:t)
 
 axiom H5 : le Y (1.79999995231628417968750:t)
 
-axiom H4 : le (abs (sub_rne X Y)) (1.29999995231628417968750:t)
-
 axiom H3 : i <=' N
 
 axiom H2 :

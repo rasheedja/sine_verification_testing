@@ -43,8 +43,6 @@ axiom H14 : ge Y1 (0.699999988079071044921875:t)
 
 axiom H13 : le Y1 (1.79999995231628417968750:t)
 
-axiom H12 : le (abs (sub_rne X Y1)) (1.29999995231628417968750:t)
-
 axiom H11 : i1 <=' N
 
 axiom H10 :
@@ -82,8 +80,6 @@ axiom H4 : Y = div_rne (add RNE Y1 (div_rne X Y1)) (2.0:t)
 axiom H3 : ge Y (0.699999988079071044921875:t)
 
 axiom H2 : le Y (1.79999995231628417968750:t)
-
-axiom H1 : le (abs (sub_rne X Y)) (1.29999995231628417968750:t)
 
 axiom H : i <=' N
 

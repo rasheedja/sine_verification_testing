@@ -38,21 +38,21 @@ goal VC def :
   (rabs__logic
    (osubtract__logic (real_square_root__logic (rf__logic X))
     (rf__logic Heron)))
-  (odivide__logic
-   (real_pow__logic (oadd__logic (ri__logic 1) (rf__logic Eps))
-    (ri__logic (3 *' N)))
-   (real_pow__logic (ri__logic 2) (ri__logic (power 2 N))))
+  (oadd__logic
+   (odivide__logic (ri__logic 1)
+    (real_pow__logic (ri__logic 2) (ri__logic (power 2 N))))
+   (omultiply__logic (ri__logic (6 *' N)) (rf__logic Eps)))
   = True
+
 
 ------------------------------- Human-Friendly Goal --------------------------------
 
 goal VC def :
   (Rabs (R- (Rsqrt (Rf X)) (Rf Heron))) <= 
-  (((Ri 1) R+ (Rf Eps)) R^ (Ri (3 *' N))) R/ ((Ri 2) R^ Ri(2 ^ N))
-  = True
+  1 / (2^2^N) + 6 * N * Eps
 
 ------------------------------- Notes --------------------------------
-For some reason, 'Heron' in this VC actually refers to the real number Y
+'Heron' in this VC actually refers to the real number Y
 
 'R' prefix indicates a function that works on real numbers.
   R-, R/, etc. are the 'Real' mathematical operators that were imported to SPARK and then used in SPARK assertions
