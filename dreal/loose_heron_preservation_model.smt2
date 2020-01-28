@@ -5,7 +5,7 @@
 (assert (= eps (^ 2 -23))) ; machine epsilon
 
 (assert
-    (forall ((x Real [0.5, 2]) (y Real [0.8, 1.5]) (i Int [1, 5]))
+    (forall ((x Real [0.5, 2]) (y Real [0.8, 1.8]) (i Int [1, 5]))
       (=> (<= (sqrt x) y)
         (=> 
           (<= (abs (- y (sqrt x))) (+ (/ 1 (^ 2 (^ 2 (- i 1)))) (* (* 6 (- i 1)) eps)))
