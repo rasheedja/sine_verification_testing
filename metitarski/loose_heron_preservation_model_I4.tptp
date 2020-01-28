@@ -7,5 +7,5 @@ fof(heron_preservation_model_i4,conjecture,
     & 0.8 <= Y & Y <= 1.5
     & abs(sqrt(X) - Y) <= 0.5^(2^3) + 18*eps
     ) => 
-    abs(sqrt(X) - (Y + X/Y)/2) <= 0.5^(2^4) + 24*eps
+    abs(sqrt(X) - (Y + X/Y)/2) <= 0.1
   )).

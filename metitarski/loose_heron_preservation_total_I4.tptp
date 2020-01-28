@@ -2,12 +2,13 @@ cnf(eps, axiom, (eps = 2^(-23))).
 cnf(up,axiom,(up(X) = (X)*(1+eps))).
 cnf(dn,axiom,(dn(X) = (X)*(1-eps))).
 
-fof(heron_preservation_rounding,conjecture, 
+fof(heron_preservation_total_i2,conjecture, 
   ! [X,Y] : 
   (
     (0.5 <= X & X <= 2 
     & 0.8 <= Y & Y <= 1.5
+    & abs(sqrt(X) - Y) <= 0.5^(2^3) + 18*eps
     ) => 
-    abs((Y+X/Y)/2 - up(up(Y + up(X/Y))/2)) <= 6*eps &
-    abs((Y+X/Y)/2 - dn(dn(Y + dn(X/Y))/2)) <= 6*eps 
+    abs(sqrt(X) - up(up(Y + up(X/Y))/2)) <= 0.1 & 
+    abs(sqrt(X) - dn(dn(Y + dn(X/Y))/2)) <= 0.1
   )).

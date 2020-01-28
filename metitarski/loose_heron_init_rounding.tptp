@@ -1,0 +1,9 @@
+cnf(eps, axiom, (eps = 2^(-23))).
+cnf(up,axiom,(up(X) = (X)*(1+eps))).
+cnf(dn,axiom,(dn(X) = (X)*(1-eps))).
+
+fof(heron_init_rounding_dn,conjecture, 
+  ! [X] : 
+  ((0.5 <= X & X <= 2) => 
+    abs(up(up(1 + X)/2) - (1+X)/2) 
+    <= 0.1)).

@@ -11,4 +11,10 @@ fof(sine_and_taylor_sine_7_float32_dn,conjecture,
         - 
         dn(X*dn(1 - up(up(X^2)*up(up(1/6) - dn(dn(X^2)*dn(dn(1/120) - up(up(X^2)*(up(1/5040)))))))))
       )
-    <= 0.1)).
+    <= 0.1 & 
+      abs(
+        sin(X)
+        - 
+        up(X*up(1 - dn(dn(X^2)*dn(dn(1/6) - up(up(X^2)*up(up(1/120) - dn(dn(X^2)*(dn(1/5040)))))))))
+      )
+    <= 0.1 )).

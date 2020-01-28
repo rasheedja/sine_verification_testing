@@ -1,0 +1,5 @@
+fof(heron_init_model,conjecture, 
+  ! [X] : 
+  ((0.5 <= X & X <= 2) => 
+    abs(sqrt(X) - (1 + X)/2) 
+    <= 0.1)).
