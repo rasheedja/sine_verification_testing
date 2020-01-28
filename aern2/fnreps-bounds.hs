@@ -111,75 +111,12 @@ processArgs (operationCode : functionCode : representationCode : effortArgs) =
         fMax = maximumOverDom f fDom
         fMin = minimumOverDom f fDom
 
-    -- maxLP :: LPolyMB -> Accuracy -> MPBall
-    -- maxLP lf ac = Local.maximum lf (mpBall (-1)) (mpBall 1) ac
-
-    -- maxLPP :: LPPolyMB -> Accuracy -> MPBall
-    -- maxLPP lf ac = Local.maximum lf (mpBall (-1)) (mpBall 1) ac
-
-    -- maxLF :: LFracMB -> Accuracy -> MPBall
-    -- maxLF lf ac = Local.maximum lf (mpBall (-1)) (mpBall 1) ac
-
-    -- maxPP :: PPoly -> Accuracy -> MPBall
-    -- maxPP f _ = f `maximumOverDomPP` (getDomain f)
-    --   where
-    --   maximumOverDomPP f2 (Interval l r) =
-    --     PPoly.maximum f2 lB rB
-    --     where
-    --     lB = setPrecision prc $ mpBall l
-    --     rB = setPrecision prc $ mpBall r
-    --     prc = getPrecision f2
-
-    -- maxFR :: FracMB -> Accuracy -> MPBall
-    -- maxFR f _ = f `maximumOverDomFR` (getDomain f)
-    --   where
-    --   maximumOverDomFR f2 (Interval l r) =
-    --     Frac.maximumOptimisedWithAccuracy accuracy (setPrc f2) lB rB 5 5
-    --     where
-    --     lB = setPrc $ mpBall l
-    --     rB = setPrc $ mpBall r
-    --     setPrc :: (CanSetPrecision a) => a -> a
-    --     setPrc =
-    --       setPrecisionAtLeastAccuracy (accuracy) . setPrecision prc
-    --     prc = getPrecision f2
-
-    -- maxBallFun :: UnaryBallFun -> Accuracy -> MPBall
-    -- maxBallFun fn ac =
-    --     m ? AccuracySG ac ac
-    --     where
-    --     m = fn `maximumOverDom` getDomain fn
-
-    -- maxModFun :: UnaryModFun -> Accuracy -> MPBall
-    -- maxModFun fn ac =
-    --     m ? AccuracySG ac ac
-    --     where
-    --     m = fn `maximumOverDom` getDomain fn
-
-    -- maxDBallFun :: UnaryBallDFun -> Accuracy -> MPBall
-    -- maxDBallFun (UnaryBallDFun [f, f']) ac =
-    --     m ? AccuracySG ac ac
-    --     where
-    --     m = fn `maximumOverDom` getDomain f
-    --     fn = UnaryBallDFun [f,f']
-    -- maxDBallFun _ _ = error "maxDBallFun: invalid UnaryBallDFun"
 processArgs _ =
     error "expecting arguments: <operationCode> <functionCode> <representationCode>s"
-
--- x_MF :: UnaryModFun
--- x_MF = varFn unaryIntervalDom ()
-
--- x_BF :: UnaryBallFun
--- x_BF = varFn unaryIntervalDom ()
-
--- x_DBF :: UnaryBallDFun
--- x_DBF = varFn unaryIntervalDom ()
 
 x_PB :: Accuracy -> DyadicInterval -> ChPoly MPBall
 x_PB acG dom =
   setAccuracyGuide acG $ varFn (dom, bits 10) ()
-
--- x_LP :: LPoly.LocalPoly MPBall
--- x_LP = LPoly.variable
 
 functions ::
   Map.Map String (String, DyadicInterval, RF -> RF)
@@ -250,7 +187,6 @@ single_minExp :: Integer
 single_minExp = 126
 
 ---------------------------------------------------------------------
--- UNIVARIATE GLOBAL OPTIMISATION
 -- |sin x - (x - x^3/6 + x^5/120 - x^7/5040)| <= eps
 
 sine_name :: String -> String
@@ -300,22 +236,12 @@ sinT7fp fpPrec fpMinExp x =
 sine_dom :: DyadicInterval
 sine_dom = dyadicInterval (0.0, 0.75)
 
+---------------------------------------------------------------------
 -- |sqrt x - (x+1)/2| <= 1/(2^(2^1)) + 6*eps
 
 heron_init_name :: String -> String
 heron_init_name label = 
   "heron first iteration single-precision rounding " ++ label
-
--- heron_init_totalerr_x :: RF -> RF
--- heron_init_totalerr_x x = 
---   (sqrt x) - (heron_init_y1_fp p x) + (real $ 0.25 + 6*eps) -- >= 0
---   where
---   p = single_prec
---   eps = 0.5^!p
-
--- heron_init_modelerr_x :: RF -> RF
--- heron_init_modelerr_x x = 
---   (sqrt x) - (heron_init_y1 x) + (real $ 0.25) -- >= 0
 
 heron_init_rounderr_x :: RF -> RF
 heron_init_rounderr_x x = 
