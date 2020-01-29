@@ -29,7 +29,7 @@ Definition sineT7fpUp eps sN x :=
 
 Lemma sineT7_rounding_error_down x :
   0 <= x <= 75/100 -> 
-  Rabs (sineT7 x - sineT7fpDown ((1/2)^23) ((1/2)^126) x) <= 14/100000000 .
+  Rabs (sineT7 x - sineT7fpDown ((1/2)^23) ((1/2)^126) x) <= 73/100000000 .
 Proof.
   intros.
   unfold sineT7.
@@ -39,7 +39,7 @@ Qed.
 
 Lemma sineT7_rounding_error_up x :
   0 <= x <= 75/100 -> 
-  Rabs (sineT7 x - sineT7fpUp ((1/2)^23) ((1/2)^126) x) <= 14/100000000 .
+  Rabs (sineT7 x - sineT7fpUp ((1/2)^23) ((1/2)^126) x) <= 73/100000000 .
 Proof.
   intros.
   unfold sineT7.

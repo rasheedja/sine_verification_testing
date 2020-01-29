@@ -24,7 +24,7 @@ Definition sineT7fpUp eps sN x :=
 
 Lemma sineT7_total_error_down x :
   0 <= x <= 75/100 -> 
-  Rabs (sin x - sineT7fpDown ((1/2)^23) ((1/2)^126) x) <= 33/100000000 .
+  Rabs (sin x - sineT7fpDown ((1/2)^23) ((1/2)^126) x) <= 56/100000000 .
 Proof.
   intros.
   unfold sineT7fpDown.
@@ -33,7 +33,7 @@ Qed.
 
 Lemma sineT7_total_error_up x :
   0 <= x <= 75/100 -> 
-  Rabs (sin x - sineT7fpUp ((1/2)^23) ((1/2)^126) x) <= 93/1000000000 .
+  Rabs (sin x - sineT7fpUp ((1/2)^23) ((1/2)^126) x) <= 56/100000000 .
 Proof.
   intros.
   unfold sineT7fpUp.
