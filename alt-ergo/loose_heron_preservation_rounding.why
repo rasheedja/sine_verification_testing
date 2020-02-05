@@ -3,7 +3,7 @@ logic eps : real
 goal heron_preservation_rounding :
   forall x:real.
     forall y:real.
-      0.5 <= x <= 2.0 -> 0.8 <= y <= 1.8 -> eps = 1.0/8388608.0 ->
+      0.5 <= x <= 2.0 -> 0.7 <= y <= 1.8 -> eps = 1.0/8388608.0 ->
         ((y + x/y) / 2.0) - (y + (x/y * (1.0 - eps)) * (1.0 - eps)) / 2.0 * (1.0 - eps) <= 0.1 and
         ((y + x/y) / 2.0) - (y + (x/y * (1.0 - eps)) * (1.0 - eps)) / 2.0 * (1.0 - eps) >= 0.0 - 0.1
         and

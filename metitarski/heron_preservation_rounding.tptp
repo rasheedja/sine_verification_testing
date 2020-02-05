@@ -6,7 +6,7 @@ fof(heron_preservation_rounding,conjecture,
   ! [X,Y] : 
   (
     (0.5 <= X & X <= 2 
-    & 0.8 <= Y & Y <= 1.8
+    & 0.7 <= Y & Y <= 1.8
     ) => 
     abs((Y+X/Y)/2 - up(up(Y + up(X/Y))/2)) <= 6*eps &
     abs((Y+X/Y)/2 - dn(dn(Y + dn(X/Y))/2)) <= 6*eps 
