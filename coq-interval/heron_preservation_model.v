@@ -10,7 +10,7 @@ Lemma heron_preservation_model_error x y i :
   let eps := 1 / (2^23) in
   let y' := (y + x/y)/2 in
   1/2 <= x <= 2 -> 
-  8/10 <= y <= 18/10 -> 
+  7/10 <= y <= 18/10 -> 
   (1 <= i < 5)%nat -> 
   heron_invariant x y i i eps ->
   heron_invariant x y' (i + 1) i eps.

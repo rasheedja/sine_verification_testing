@@ -15,7 +15,7 @@ Definition heron_invariant_rounding eps yR yE i :=
     let RD x := (x) * oneMe in
     let yE := (y + x/y)/2 in
     let yR := RU(RU(y + RU(x/y))/2) in
-    1/2 <= x <= 2 -> 8/10 <= y <= 18/10 ->
+    1/2 <= x <= 2 -> 7/10 <= y <= 18/10 ->
     heron_invariant_rounding eps yR yE 1.
   Proof.
     intros.
@@ -33,7 +33,7 @@ Definition heron_invariant_rounding eps yR yE i :=
     let RD x := (x) * oneMe in
     let yE := (y + x/y)/2 in
     let yR := RD(RD(y + RD(x/y))/2) in
-    1/2 <= x <= 2 -> 8/10 <= y <= 3/2
+    1/2 <= x <= 2 -> 7/10 <= y <= 3/2
     heron_invariant_rounding eps yR yE 1.
   Proof.
     intros.
