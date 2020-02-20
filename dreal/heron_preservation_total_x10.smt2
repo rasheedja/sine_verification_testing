@@ -1,5 +1,5 @@
 
-(set-option :precision 0.000094) ; 
+(set-option :precision 0.00094) ; 1.30 seconds
 
 (declare-const eps Real)
 (assert (= eps (^ 2 -23))) ; machine epsilon
