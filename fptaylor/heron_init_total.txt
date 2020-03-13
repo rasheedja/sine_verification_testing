@@ -1,0 +1,26 @@
+Constants
+  eps = 1/8388608;
+
+Variables
+  real x in [0.5, 2];
+
+Definitions
+  heron rnd32 = (1 + x) / 2;
+
+Expressions
+  abs(sqrt(x) - heron);
+
+// -------------------------------------------------------------------------------
+// Problem: Expression 1
+// 
+// Optimization lower bounds for error models:
+// The absolute error model (exact): 8.940697e-08 (suboptimality = 0.0%)
+// 
+// Bounds (without rounding): [0.000000e+00, 9.409727e-02]
+// Bounds (floating-point): [-8.94069671630859507349e-08, 9.40973545067183142487e-02]
+// 
+// Absolute error (exact): 8.940697e-08
+// 
+// Elapsed time: 0.40
+
+// delta = 9.40973545067183142487e-02, which is less than 0.25 + 6 * eps

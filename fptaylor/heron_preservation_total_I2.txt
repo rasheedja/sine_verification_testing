@@ -1,0 +1,33 @@
+Constants
+  eps = 1/8388608;
+
+Variables
+  real x in [0.5, 2];
+  real y in [0.7, 1.8];
+  int z in [1, 5];
+
+Definitions
+  y1 rnd32 = (y + x / y) / 2;
+
+Constraints
+  prev: abs(sqrt(x) - y) <= 1/4 + 6 * eps;
+
+Expressions
+  abs(sqrt(x) - y1);
+
+// Problem: Expression 1
+// 
+// Optimization lower bounds for error models:
+// The absolute error model (exact): 2.062785e-07 (suboptimality = 0.7%)
+// 
+// Bounds (without rounding): [0.000000e+00, 3.728040e-01]
+// Bounds (floating-point): [-2.07703954705393987235e-07, 3.72804239690574024113e-01]
+// 
+// Absolute error (exact): 2.077040e-07
+// 
+// Elapsed time: 0.42
+
+// delta = 0.372804239690574024113, which is greater than 1/16 + 12 * eps, so fptaylor cannot prove this
+
+// This is because the default optimizer does not support constraints.
+// The z3 optimizer supports constraints, but z3 does not support sqrt

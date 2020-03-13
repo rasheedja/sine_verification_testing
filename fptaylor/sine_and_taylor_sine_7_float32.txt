@@ -1,0 +1,19 @@
+Variables
+  real x in [0, 0.75];
+
+Definitions
+  taylor rnd32 = x * (1 - (x * x) * (1 / 6.0 - (x * x) * (1 / 120.0 - (x * x) / 5040.0)));
+
+Expressions
+  abs(sin(x) - taylor);
+
+// Problem: Expression 1
+// 
+// Optimization lower bounds for error models:
+// The absolute error model (exact): 8.688047e-08 (suboptimality = 11.3%)
+// 
+// Bounds (without rounding): [0.000000e+00, 5.859375e-03]
+// Bounds (floating-point): [-9.80035466406967432052e-08, 5.85947300354664087074e-03]
+// 
+// Absolute error (exact): 9.800355e-08
+
