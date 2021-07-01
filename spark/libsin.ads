@@ -13,7 +13,7 @@ package libsin with SPARK_Mode is
 
    function Maximum_Relative_Error (X : Float) return Float is (0.0 * X);
    
-   function Exact (X : Long_Long_Float) return Float is (Float (X));
+   function Exact (X : Long_Float) return Float is (Float (X));
    
    function Epsilon return Float is (Float'Model_Epsilon);
    

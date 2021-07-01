@@ -109,14 +109,14 @@ package body libsin with SPARK_Mode is
             2 => Exact (0.83320_16396E-2),
             3 => Exact (-0.19501_81843E-3));
 
-      Sqrt_Epsilon_LLF : constant Long_Long_Float :=
-        Sqrt_2 ** (1 - Long_Long_Float'Machine_Mantissa); -- substitute Long_Long_Float'Machine_Mantissa 
+      Sqrt_Epsilon_LF : constant Long_Float :=
+        Sqrt_2 ** (1 - Long_Float'Machine_Mantissa); -- substitute Long_Long_Float'Machine_Mantissa 
                                                           -- Get rid of exacts, long_long_floats
 
       G  : constant Float := X * X;
 
    begin
-      if abs X <= Exact (Sqrt_Epsilon_LLF) then
+      if abs X <= Exact (Sqrt_Epsilon_LF) then
          return X;
       end if;
 
