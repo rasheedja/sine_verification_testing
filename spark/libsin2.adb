@@ -11,11 +11,25 @@ package body libsin2 with SPARK_Mode is
       Floor_X_Dist : Float := abs (X - Floor_X);
       Ceil_X_Dist  : Float := abs (X - Ceil_X);
    begin
-      if Floor_X_Dist < Ceil_X_Dist
-          then return Float (Floor_X);
-          else return Float (Ceil_X);
+      if Floor_X_Dist < Ceil_X_Dist then
+         return Float (Floor_X);
+      else 
+         return Float (Ceil_X);
       end if;
    end My_Machine_Rounding;
+
+   function My_Copy_Sign (X : Float; S : Float) return Float is
+   begin
+      if X = 0.0 then
+         return X;
+      else 
+         if S > 0.0 then
+            return X;
+         else
+            return -X;
+         end if;
+      end if;
+   end My_Copy_Sign;
 
    procedure Split_Veltkamp (X : Float; X_Hi, X_Lo : out Float) is
       M : constant Float := 0.5 + 2.0**(1 - Float'Machine_Mantissa / 2);
@@ -150,7 +164,7 @@ package body libsin2 with SPARK_Mode is
 
       Result := (if Q mod 2 = 0 then Approx_Sin (Y) else Approx_Cos (Y));
 
-      return Float'Copy_Sign (1.0, X) * (if Q >= 2 then -Result else Result);
+      return My_Copy_Sign (1.0, X) * (if Q >= 2 then -Result else Result);
    end Sin;
 
    function Approx_Cos (X : Float) return Float is
