@@ -4,7 +4,7 @@ package body libsin2 with SPARK_Mode is
    
    function Multiply_Add (X, Y, Z : Float) return Float is (X * Y + Z);
    
-   function My_Machine_Rounding (X : Float) return Float is
+   procedure My_Machine_Rounding (X : Float; Y : out Float) is
       Floor_X : Float := Float'Floor   (X);
       Ceil_X  : Float := Float'Ceiling (X);
       
@@ -12,24 +12,24 @@ package body libsin2 with SPARK_Mode is
       Ceil_X_Dist  : Float := abs (X - Ceil_X);
    begin
       if Floor_X_Dist < Ceil_X_Dist then
-         return Float (Floor_X);
+         Y := (Floor_X);
       else 
-         return Float (Ceil_X);
+         Y := (Ceil_X);
       end if;
    end My_Machine_Rounding;
 
-   function My_Copy_Sign (X : Float; S : Float) return Float is
-   begin
-      if X = 0.0 then
-        return X;
-      else 
-         if S > 0.0 then
-            return X;
-         else
-            return -X;
-         end if;
-      end if;
-   end My_Copy_Sign;
+   --  procedure My_Copy_Sign (X : Float; S : Float; XResult : out Float) is
+   --  begin
+   --     if X = 0.0 then
+   --       XResult := X;
+   --     else
+   --        if S > 0.0 then
+   --           XResult := X;
+   --        else
+   --           XResult := -X;
+   --        end if;
+   --     end if;
+   --  end My_Copy_Sign;
 
    procedure Split_Veltkamp (X : Float; X_Hi, X_Lo : out Float) is
       M : constant Float := 0.5 + 2.0**(1 - Float'Machine_Mantissa / 2);
@@ -38,7 +38,7 @@ package body libsin2 with SPARK_Mode is
       X_Lo := X - X_Hi;
    end Split_Veltkamp;
    
-   procedure Reduce_Half_Pi (X : in out Float; Q : out Quadrant; R : out Integer) is
+   procedure Reduce_Half_Pi (X : in out Float; Q : out Quadrant; R : out Float) is
       K      : constant       := Pi / 2.0;
       Bits_N : constant       := 9;
       Max_N  : constant       := 2.0**Bits_N - 1.0;
@@ -52,11 +52,14 @@ package body libsin2 with SPARK_Mode is
       C2     : constant Float := 0.0000565797090530395508;
       C3     : constant Float := 0.000000000992088189377682284;
       C4     : constant Float := K - C1 - C2 - C3;
-      N      : constant Float := My_Machine_Rounding (X * K**(-1));
+      N      : Float := (X * K**(-1));
+      M      : Float;
    begin
-      X := (((X - N * C1) - N * C2) - N * C3) - N * C4;
-      Q := Integer (N) mod 4; -- Return Integer (N) for specification
-      R := Integer (N);
+      My_Machine_Rounding (N, M);
+      
+      X := (((X - M * C1) - M * C2) - M * C3) - M * C4;
+      Q := Integer (M) mod 4; -- Return Integer (N) for specification
+      R := M;
    end Reduce_Half_Pi;
    
    --  procedure Reduce_Half_Pi_Large (X : in out Float; N : Float; Q : out Quadrant; R : out Integer) is
@@ -109,7 +112,7 @@ package body libsin2 with SPARK_Mode is
 
    function Exact (X : Long_Float) return Float is (Float (X));
    
-   function Approx_Sin  (X : Float) return Float is
+   procedure Approx_Sin  (X : Float; Result : out Float) is
       --  Note: The reference tables named below for sine lists constants
       --  for sin((pi/4) * x) ~= x * P (x^2), in order to get sin (x),
       --  the constants have been adjusted by division of appropriate
@@ -131,29 +134,36 @@ package body libsin2 with SPARK_Mode is
       H2 : constant Float := (H1 * G + (-0.16666_65022));
    begin
       if abs X <= Float(Long_Float (Sqrt_Epsilon_LF)) then
-         return X;
+         Result := X;
+      else
+         Result := (X * (H2 * G) + X);
       end if;
-
-      return (X * (H2 * G) + X);
    end Approx_Sin;
 
-   function Sin (X : Float) return Float is
+   procedure Sin (X : Float; FinalResult : out Float) is
 
       --  Math based implementation using Hart constants
       Y      : Float := abs X;
       Q      : Quadrant;
-      R      : Integer;
+      R      : Float;
       Result : Float;
-
    begin
       Reduce_Half_Pi (Y, Q, R);
-
-      Result := (if Q mod 2 = 0 then Approx_Sin (Y) else Approx_Cos (Y));
-
-      return My_Copy_Sign (1.0, X) * (if Q >= 2 then -Result else Result);
+      
+      if (Q mod 2 = 0) then 
+         Approx_Sin (Y, Result); 
+      else 
+         Approx_Cos (Y, Result);
+      end if;
+      
+      if X < 0.0 then 
+         FinalResult := (-1.0) * (if Q >= 2 then -Result else Result);
+      else 
+         FinalResult := (1.0)  * (if Q >= 2 then -Result else Result);
+      end if;
    end Sin;
 
-   function Approx_Cos (X : Float) return Float is
+   procedure Approx_Cos (X : Float; Result : out Float) is
       --  Note: The reference tables named below for cosine lists
       --  constants for cos((pi/4) * x) ~= P (x^2), in order to get
       --  cos (x), the constants have been adjusted by division of
@@ -173,7 +183,7 @@ package body libsin2 with SPARK_Mode is
       H3 : constant Float := (H2 * G + (-0.49999_99957));
       H4 : constant Float := (H3 * G + (0.99999_99999));
    begin
-      return H4;
+     Result := H4;
    end Approx_Cos;
 
 end libsin2;

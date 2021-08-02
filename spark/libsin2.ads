@@ -14,22 +14,38 @@ package libsin2 with SPARK_Mode is
 
    type Polynomial is array (Natural range <>) of Float;
 
-   function My_Machine_Rounding (X : Float) return Float with
-     Post => 
-       (if X - Float'Floor(X) < 0.5 
-              then My_Machine_Rounding'Result = Float'Floor(X) 
-              else My_Machine_Rounding'Result = Float'Ceiling(X)) 
-       and (X - My_Machine_Rounding'Result) <= 0.5 
-     and (X - My_Machine_Rounding'Result) >= -0.5;
+   procedure My_Machine_Rounding (X : Float; Y : out Float) with
+     Pre =>
+       (-500.0 <= X and X <= 500.0),
+     Post =>
+       (-500.0 <= Y and Y <= 500.0)
+     and
+       (if 
+          X - Float'Floor(X) < 0.5
+              then 
+                Y = Float'Floor(X)
+              else 
+                Y = Float'Ceiling(X))
+       and
+         (X - Y) <= 0.5 
+     and 
+       (X - Y) >= -0.5;
+   
+   --  procedure My_Copy_Sign (X : Float; S : Float; XResult : out Float) with
+   --    Pre => X >= -500 and X <= 500,
+   --    Post =>
+   --      (if X = 0.0 then XResult = X else (if S > 0.0 then XResult = X else XResult = -X));
    
    procedure Split_Veltkamp (X : Float; X_Hi, X_Lo : out Float)
      with 
        Pre => (-100000.0 <= X and X <= 100000.0),
        Post => X = X_Hi + X_Lo;
 
-   procedure Reduce_Half_Pi (X : in out Float; Q : out Quadrant; R : out Integer) -- Might need to return number of Pi reductions here (for specification)
+   procedure Reduce_Half_Pi (X : in out Float; Q : out Quadrant; R : out Float) -- Might need to return number of Pi reductions here (for specification)
      with Pre  => X >= 0.0 and X <= 500.0,
-     Post => abs(X) <= Max_Red_Trig_Arg and abs(X - (X'Old - (Float(R) * (Ada.Numerics.Pi / 2.0)))) <= 0.01;
+     Post => 
+       abs(X) <= Max_Red_Trig_Arg 
+     and Real_Abs(Rf(X) - (Rf(X'Old) - (Rf(R) * Rf(Ada.Numerics.Pi / 2.0)))) <= Rf(0.001);
    --  procedure Reduce_Half_Pi_Large (X : in out Float;  N : Float; Q : out Quadrant; R : out Integer)
    --    with Pre  => X >= 0.0 and X <= 100000.0,
    --    Post => abs (X - (X'Old - (Float(R) * Half_Pi))) <= 0.0001;
@@ -45,20 +61,20 @@ package libsin2 with SPARK_Mode is
    
    function Epsilon return Float is (Float'Model_Epsilon);
    
-   function Approx_Sin  (X : Float) return Float
+   procedure Approx_Sin  (X : Float; Result : out Float)
      with Pre  => (abs X) <= (Max_Red_Trig_Arg),
-     Post => abs Approx_Sin'Result <= (1.0) and then
-     Maximum_Relative_Error (Approx_Sin'Result) <= 2.0 * Epsilon and then
-     Rabs (Rf(Approx_Sin'Result) - Real_Sin(Rf(X))) <= Rf(30.0/8388608.0);
+     Post => abs Result <= (1.0) and then
+     Maximum_Relative_Error (Result) <= 2.0 * Epsilon and then
+     Rabs (Rf(Result) - Real_Sin(Rf(X))) <= Rf(20.0/8388608.0);
 
-   function Approx_Cos (X : Float) return Float
+   procedure Approx_Cos (X : Float; Result : out Float)
      with Pre  => abs (X) <= (Max_Red_Trig_Arg),
-     Post => abs (Approx_Cos'Result) <= (1.0)
-     and then Maximum_Relative_Error (Approx_Cos'Result)
+     Post => abs (Result) <= (1.0)
+     and then Maximum_Relative_Error (Result)
      <= 2.0 * Epsilon and then
-     Rabs (Rf(Approx_Cos'Result) - Real_Cos(Rf(X))) <= Rf(30.0/8388608.0);
+     Rabs (Rf(Result) - Real_Cos(Rf(X))) <= Rf(30.0/8388608.0);
 
-   function Sin (X : Float) return Float
+   procedure Sin (X : Float; FinalResult : out Float)
      with Pre => abs (X) <= 500.0, Export, Convention => C, External_Name => "sinf",
-     Post => Rabs (Rf(Sin'Result) - Real_Sin(Rf(X))) <= Rf(0.01);
+     Post => Rabs (Rf(FinalResult) - Real_Sin(Rf(X))) <= Rf(0.001);
 end libsin2;
