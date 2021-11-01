@@ -181,3 +181,43 @@ module Reals__real_pow
  val real_pow (x : real) (y : real) : real
   ensures { result = real_pow__logic x y }
 end
+
+module Reals__rfloor
+  use real.Truncate
+
+  function rfloor__logic (x : real) : int = floor x
+  val rfloor (x : real) : int
+    ensures { result = rfloor__logic x }
+end
+
+module Reals__rceiling
+  use real.Truncate
+
+  function rceiling__logic (x : real) : int = ceil x
+  val rceiling (x : real) : int
+    ensures { result = rceiling__logic x }
+end
+
+module Reals__real_pi
+  use real.Trigonometry
+
+ function real_pi__logic (x : unit) : real = pi
+ val real_pi (x : unit) : real
+  ensures { result = real_pi__logic x }
+end
+
+module Reals__real_min
+  use real.MinMax
+
+  function real_min__logic (x : real) (y : real) : real = min x y
+  val real_min (x : real) (y : real) : real
+    ensures { result = real_min__logic x y }
+end
+
+module Reals__real_max
+  use real.MinMax
+
+  function real_max__logic (x : real) (y : real) : real = max x y
+  val real_max (x : real) (y : real) : real
+    ensures { result = real_max__logic x y }
+end

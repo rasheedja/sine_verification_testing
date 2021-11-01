@@ -7,6 +7,15 @@ is
 
    type Real is private;
 
+   function Rfloor (X : Real) return Integer
+     with Import;
+
+   function Rceiling (X : Real) return Integer
+     with Import;
+
+   function Real_Pi return Real
+     with Import;
+
    function "+" (X, Y : Real) return Real
      with Import;
 
@@ -49,6 +58,12 @@ is
    function Real_Abs (X : Real) return Real
      with Import;
 
+   function Real_Min (X : Real; Y : Real) return Real
+     with Import;
+
+   function Real_Max (X : Real; Y : Real) return Real
+     with Import;
+
    function Ri (X : Integer) return Real
      with Import;
 
@@ -75,6 +90,8 @@ is
 
    function Real_Pow (X, Y : Real) return Real
      with Import;
+
+   --  function Real_Pi (X : Real) return Real;
 
 private
    pragma SPARK_Mode (Off);
